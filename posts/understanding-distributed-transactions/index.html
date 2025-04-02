@@ -147,22 +147,6 @@
                         <li>
                             <a href=#whydoweneeddistributedtransactions aria-label="Why do we need distributed transactions">Why do we need distributed transactions?</a>
                         </li>
-
-                        <li>
-                            <a href=#usecase aria-label="Use case">Use case scenario</a>
-                            <ul>
-                                <li>
-                                    <a href="#monolithicnonshardeddatastore" aria-label="Monolithic application & non-sharded datastore">Monolithic application & non-sharded datastore</a>
-                                </li>
-                                <li>
-                                    <a href="#monolithicshardeddatastore" aria-label="Monolithic application & sharded datastore">Monolithic application & sharded datastore</a>
-                                </li>
-                                <li>
-                                    <a href="#microserviceswithdifferentdatastore" aria-label="Microservices with different datastore">Microservices with different datastore's</a>
-                                </li>
-                            </ul>
-                        </li>
-
                         <li>
                             <a href=#solutionpatternsfordistributedtransactions aria-label="Solution Patterns for Distributed Transactions">Solution patterns for distributed transactions</a>
                             <ul>
@@ -302,65 +286,6 @@
                 </details>
             </div>
             </p>
-
-            <h2 id=usecase>
-                Usecase scenario
-            </h2>
-            <p>
-                Let's consider a basic banking application where one database server manages various user balances.
-
-            <div class=toc>
-                <details onclose="">
-                    <summary accesskey=c title="(Alt + C)">
-                        <span class=details> Monolithic application and Non-shard database</span>
-                    </summary>
-                    <div class=inner>
-                        <p>
-                            When a user transfers money to another, we must ensure: User Ilia's account is credited and user Sas's account is debited upon successful transaction. The system returns to its pre-transaction state if the database crashes afterward. Transactions fail for reasons like insufficient balance, in which case no updates should occur. The database remains consistent after transactions; for example, user Ilia shouldn't receive credit without user Sas's account being debited.
-                        <br>
-                        </br>
-                            Using a relational database ensures these points through transactions, which guarantee atomicity. Transactions are sets of SQL statements executed by the database. If a failure occurs, the transaction is aborted, leaving data unchanged. Successful transactions commit changes to the underlying data. We can rely on database ACID properties.
-                        </p>
-
-                    </div>
-                </details>
-            </div>
-
-            <div class=toc>
-                <details onclose="">
-                    <summary accesskey=c title="(Alt + C)">
-                        <span class=details> Monolithic application and shard database</span>
-                    </summary>
-                    <div class=inner>
-                        <p>
-                            We have now decided to scale our database, to cater to increasing customers. Data is distributed across multiple database servers. So, user Sas and user Ilia’s database records may fall in different shards. Can we still guarantee atomicity in the case of sharded databases?
-                            <br>
-                            </br>
-                            No, since only a single database server guarantees atomicity. While dealing with many database servers, it’s the application’s responsibility to make a transaction atomic. We will see what are the different error scenarios that we need to tackle. We have to ensure that either the transaction completes successfully or fails. We don’t want to leave the transaction midway in an inconsistent state. Protocol like 2-Phase Commit makes distributed transactions atomic in nature.
-                        </p>
-
-                    </div>
-                </details>
-            </div>
-
-            <div class=toc>
-                <details onclose="">
-                    <summary accesskey=c title="(Alt + C)">
-                        <span class=details> Microservices with multiple datastore's</span>
-                    </summary>
-                    <div class=inner>
-                        <p>
-                            We have now decided to scale our services and databases to cater scalability. Data is distributed across multiple database servers. So, deposit and withdraw microservice datastore may fall in a different database. Can we still guarantee atomicity in the case of multiple databases across multiple services?
-                            <br>
-                            </br>
-                            No, as we know by now, only a single database server guarantees atomicity. While dealing with multiple database servers, it’s again the application’s responsibility to make a transaction atomic. We will see what are the different error scenarios that we need to tackle. We have to ensure that either the transaction completes successfully or fails. We don’t want to leave the transaction midway in an inconsistent state. Protocol like 2-Phase Commit, 3-Phase Commit, Sagas makes distributed transactions synchronous and/or asynchronous in nature.
-                        </p>
-
-                    </div>
-                </details>
-            </div>
-            </p>
-
             <p>
                 In a hypothetical scenario, We now recognize that distributed transactions aren't exclusive to distributed systems. Even monolithic applications can encounter situations where distributed transactions are a part of our daily routine.
             </p>
